@@ -1,3 +1,4 @@
+from datetime import datetime
 import errno
 import os
 
@@ -103,4 +104,4 @@ class RoleplayHandler(MessageHandlerBase):
     def try_default(self, c, e):
         if self.buffer.running:
             self.buffer.add(e.arguments[0])
-            return true
+            return True
