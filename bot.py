@@ -73,13 +73,17 @@ class MyBot(irc.bot.SingleServerIRCBot):
         import irc.dict
         self.channels = irc.dict.IRCDict()
     def start(self):
+        self._bot_exit = False
         while True:
             try:
                 irc.bot.SingleServerIRCBot.start(self)
             except irc.client.ServerNotConnectedError:
-                pass
-            else:
-                return
+                if not self._bot_exit:
+                    continue
+            break
+    def die(self):
+        self._bot_exit = True
+        irc.bot.SingleServerIRCBot.die(self)
 
 def ServerSpec(server):
     host,port = server.split('@')
