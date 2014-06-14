@@ -83,6 +83,9 @@ class RoleplayHandler(MessageHandlerBase):
     def begin_roleplay(self, c, e, rem_args):
         if 0 != len(rem_args):
             return False
+        if self.buffer.running:
+            c.privmsg(self.chan_name, 'Roleplay is already running!')
+            return True
         self.buffer.start()
         c.privmsg(self.chan_name, 'Roleplay started.')
         return True
@@ -90,6 +93,9 @@ class RoleplayHandler(MessageHandlerBase):
     def finish_roleplay(self, c, e, rem_args):
         if 0 != len(rem_args):
             return False
+        if not self.buffer.running:
+            c.privmsg(self.chan_name, 'No roleplay is running')
+            return True
         self.buffer.stop(self.char_manager.chars)
         c.privmsg(self.chan_name, 'Roleplay ended.')
         return True
