@@ -22,7 +22,7 @@ class CharManager:
 
 class MyBot(irc.bot.SingleServerIRCBot):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        irc.bot.SingleServerIRCBot.__init__(self, *args, **kwargs)
         self.connection_checker_set = False
 
     def on_nicknameinuse(self, c, e):
@@ -75,7 +75,7 @@ class MyBot(irc.bot.SingleServerIRCBot):
     def start(self):
         while True:
             try:
-                super().start()
+                irc.bot.SingleServerIRCBot.start(self)
             except irc.client.ServerNotConnectedError:
                 pass
             else:
@@ -107,7 +107,7 @@ bot.channels_to_join = channels
 
 class AsyncTask(threading.Thread):
     def __init__(self, task):
-        super().__init__()
+        threading.Thread.__init__(self)
         self.task = task
         self.result = None
     def run(self):
