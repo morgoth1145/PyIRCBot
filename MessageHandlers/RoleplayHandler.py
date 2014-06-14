@@ -72,7 +72,7 @@ class Buffer:
 
 class RoleplayHandler(MessageHandlerBase):
     def __init__(self, chan_name, char_manager):
-        super().__init__(chan_name)
+        MessageHandlerBase.__init__(self, chan_name)
         self.buffer = Buffer()
         self.char_manager = char_manager
 

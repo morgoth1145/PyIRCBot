@@ -4,7 +4,7 @@ from .MessageHandlerBase import MessageHandlerBase
 
 class WikiStatsHandler(MessageHandlerBase):
     def __init__(self, chan_name, site):
-        super().__init__(chan_name)
+        MessageHandlerBase.__init__(self, chan_name)
 
         stats = self.options.add_option('!stats')
         stats.add_option('links').action = WikiStatsHandler.stats(site,

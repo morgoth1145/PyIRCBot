@@ -16,7 +16,7 @@ def get_all_links(site, message):
 
 class WikiLinkHandler(MessageHandlerBase):
     def __init__(self, chan_name, site):
-        super().__init__(chan_name)
+        MessageHandlerBase.__init__(self, chan_name)
         self.site = site
 
     def try_default(self, c, e):

@@ -2,7 +2,7 @@ from .MessageHandlerBase import MessageHandlerBase
 
 class CharHandler(MessageHandlerBase):
     def __init__(self, chan_name, char_manager):
-        super().__init__(chan_name)
+        MessageHandlerBase.__init__(self, chan_name)
         self.char_manager = char_manager
 
         rp = self.options.add_option('rp')
