@@ -1,11 +1,19 @@
 import shlex
 
 class _CommandParser:
-    def __init__(self):
+    def __init__(self, skip_help=False):
         self._options = {}
         self.action = None
-    def add_option(self, name):
-        opt = self._options[name] = _CommandParser()
+        if not skip_help:
+            opt = self.add_option('-h', True)
+            options_closure = self._options
+            def help_fn(self, c, e, rem_args):
+                for opt_name in options_closure.keys():
+                    if '-h' != opt_name:
+                        c.privmsg(e.target, '\t%s' % opt_name)
+            opt.action = help_fn
+    def add_option(self, name, skip_help=False):
+        opt = self._options[name] = _CommandParser(skip_help)
         return opt
     def try_parse(self, args):
         if self.action is not None:
