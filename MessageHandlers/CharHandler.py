@@ -1,3 +1,4 @@
+import fnmatch
 from .MessageHandlerBase import MessageHandlerBase
 
 class CharHandler(MessageHandlerBase):
@@ -26,9 +27,14 @@ class CharHandler(MessageHandlerBase):
         return True
 
     def list_char(self, c, e, rem_args):
+        if 1 == len(rem_args):
+            pattern = rem_args.pop()
+        else:
+            pattern = '*'
         if 0 != len(rem_args):
             return False
-        c.privmsg(self.chan_name, 'Known characters:')
-        for char in self.char_manager.chars:
-            c.privmsg(self.chan_name, '\t%s' % char)
+        chars = ', '.join('"%s"' % c
+                          for c
+                          in fnmatch.filter(self.char_manager.chars, pattern))
+        c.privmsg(self.chan_name, 'Known characters: %s' % chars)
         return True

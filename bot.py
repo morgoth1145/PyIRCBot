@@ -1,4 +1,5 @@
 import configparser
+import textwrap
 import threading
 
 import irc.bot
@@ -30,6 +31,12 @@ class MyBot(irc.bot.SingleServerIRCBot):
 
     def on_welcome(self, c, e):
         from MessageHandlers import CharHandler, RoleplayHandler, WikiLinkHandler, WikiStatsHandler
+
+        orig_privmsg = c.privmsg
+        def chunked_privmsg(target, text):
+            for line in textwrap.wrap(text, 400-len(target)):
+                orig_privmsg(target, line)
+        c.privmsg = chunked_privmsg
 
         if not self.connection_checker_set:
             c.set_keepalive(self.reconnection_interval)
